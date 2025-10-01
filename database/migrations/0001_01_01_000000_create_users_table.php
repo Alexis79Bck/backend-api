@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->uuid('uuid')->unique();
+            $table->string('name'); // nombre principal
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('is_active')->default(true);
+            $table->foreignId('profile_id')->nullable()->constrained('users_profiles')->cascadeOnDelete();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -35,6 +39,18 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        Schema::create('users_profiles', function (Blueprint $table) {
+            $table->id();
+            $table->string('first_name');
+            $table->string('last_name')->nullable();
+            $table->date('birthdate')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->string('country')->nullable();
+            $table->string('phone')->nullable();
+            $table->text('bio')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -45,5 +61,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('users_profiles');
     }
 };
