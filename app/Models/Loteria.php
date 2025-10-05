@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Loteria extends Model
 {
     /** TRAITS */
-    USE SoftDeletes;
+    use SoftDeletes;
     use HasFactory;
 
     /** ATTRIBUTES */
+    protected $table = 'lotteries';
     protected $fillable = [
         'name',
         'slug',
@@ -24,7 +25,7 @@ class Loteria extends Model
     ];
 
     /** RELATIONSHIPS */
-    public function sorteos(): HasMany   
+    public function sorteos(): HasMany
     {
         return $this->hasMany(Sorteo::class);
     }
@@ -34,8 +35,19 @@ class Loteria extends Model
     }
 
     /** SCOPES */
-    public function scopeActive($query)
+    public function scopeActiva($query)
     {
         return $query->where('is_active', true);
     }
+
+    public function scopeInactiva($query)
+    {
+        return $query->where('is_active', false);
+    }
+
+    public function scopePorNombre($query, string $name)
+    {
+        return $query->where('name', 'LIKE', "%{$name}%");
+    }
+
 }

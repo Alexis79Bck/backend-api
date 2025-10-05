@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->boolean('processed')->default(false);
             $table->foreignId('scraping_source_id')->constrained('scraping_sources')->cascadeOnDelete();
-            $table->unique(['drae_id', 'date'], 'draw_date_unique');
+            $table->unique(['draw_id', 'date'], 'draw_date_unique');
             $table->timestamps();
             $table->softDeletes();
         });
