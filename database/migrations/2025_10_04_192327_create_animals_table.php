@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('horarios', function (Blueprint $table) {
+        Schema::create('animals', function (Blueprint $table) {
             $table->id();
-            $table->string('hora');
-            $table->foreign('loteria_id')->constrained('loterias')->cascadeOnDelete();
+            $table->string('name');
+            $table->integer('number')->unique();
+            $table->string('color');
+            $table->string('rulette_sector', 1);
+            $table->string('image_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('horarios');
+        Schema::dropIfExists('animals');
     }
 };

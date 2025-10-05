@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('animales', function (Blueprint $table) {
+        Schema::create('lotteries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('number')->unique();
-            $table->string('color');
-            $table->string('rulette_sector', 1);
-            $table->string('image_path')->nullable();
+            $table->string('slug')->unique();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('animales');
+        Schema::dropIfExists('lotteries');
     }
 };

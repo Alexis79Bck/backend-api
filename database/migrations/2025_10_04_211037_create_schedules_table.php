@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fuente_scrapers', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('source_name');
-            $table->string('source_url');
-            $table->string('script');
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->timestamp('processed_at')->nullable();
-            $table->boolean('is_valid')->default(true);
+            $table->string('time');
+            $table->foreignId('lottery_id')->constrained('lotteries')->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fuente_scrapers');
+        Schema::dropIfExists('schedules');
     }
 };

@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loterias', function (Blueprint $table) {
+        Schema::create('draws', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('lottery_id')->constrained('lotteries')->cascadeOnDelete();
+            $table->foreignId('schedule_id')->constrained('schedules')->cascadeOnDelete();
+            $table->unique(['lottery_id', 'schedule_id'], 'lottery_schedule_unique');
+            $table->string('description');
             $table->string('slug')->unique();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loterias');
+        Schema::dropIfExists('draws');
     }
 };
