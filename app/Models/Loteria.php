@@ -50,4 +50,24 @@ class Loteria extends Model
         return $query->where('name', 'LIKE', "%{$name}%");
     }
 
+    /** ACCESSORS */
+    public function getNombreConEstadoAttribute(): string
+    {
+        $estado = $this->is_active ? 'Activa' : 'Inactiva';
+        return "{$this->name} ({$estado})";
+    }
+
+    public function getMostrarNombreAttribute(): string
+    {
+        return ucfirst(strtolower($this->name));
+    }
+
+    public function getMostrarTextoEstado(): string
+    {
+        return $this->is_active ? 'Activa' : 'Inactiva';
+    }
+
+
+
+
 }

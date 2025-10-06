@@ -41,14 +41,37 @@ class Sorteo extends Model
     {
         return $query->where('is_active', true);    
     }
+
     public function scopeInactivo($query)
     {
         return $query->where('is_active', false);    
     }
+
     public function scopePorDescripcion($query, string $description)
     {
         return $query->where('description', 'LIKE', "%{$description}%");
     }
+
+    public function scopePorLoteria($query, int $lotteryId)
+    {
+        return $query->where('lottery_id', $lotteryId);
+    }
     
+    /** ACCESSORS */
+    public function getDescripcionConEstadoAttribute(): string
+    {
+        $estado = $this->is_active ? 'Activo' : 'Inactivo';
+        return "{$this->description} ({$estado})";  
+    }
+
+    public function getMostrarDescripcionAttribute(): string
+    {
+        return ucfirst(strtolower($this->description));
+    }
+
+    public function getMostrarTextoEstadoAttribute(): string
+    {
+        return $this->is_active ? 'Activo' : 'Inactivo';
+    }
 
 }

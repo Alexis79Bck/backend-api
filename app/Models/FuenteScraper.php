@@ -15,8 +15,8 @@ class FuenteScraper extends Model
     /** ATTRIBUTES */
     protected $table = 'scraping_sources';
     protected $fillable = [
-        'name',
-        'url',
+        'source_name',
+        'source_url',
         'script',
         'start_date',
         'end_date',

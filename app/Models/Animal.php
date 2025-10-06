@@ -22,7 +22,7 @@ class Animal extends Model
         'image_path',
     ];
     protected $casts = [
-        'number' => 'integer',
+        'number' => 'string',
     ];
 
     /** RELATIONSHIPS */
@@ -37,7 +37,7 @@ class Animal extends Model
         return $query->where('name', 'LIKE', "%$name%");
     }
 
-    public function scopePorNumero($query, int $number)
+    public function scopePorNumero($query, $number)
     {
         return $query->where('number', $number);
     }
@@ -51,6 +51,17 @@ class Animal extends Model
     {
         return $query->where('rulette_sector', $sector);
     }
+
+    /** ACCESSORS */
+    public function getNumeroYNombreAttribute(): string
+    {       
+        return "{$this->number} - {$this->name}";
+    }
+    public function getTextoInfoCompletaAttribute(): string
+    {       
+        return ucfirst(strtolower($this->name)) . ' - ' . $this->number . ' - ' . strtoupper($this->color);
+    }
+
 
 
 }
