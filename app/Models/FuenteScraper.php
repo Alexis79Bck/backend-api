@@ -30,6 +30,11 @@ class FuenteScraper extends Model
         'is_valid' => 'boolean',
     ];
 
+    protected $appends = [
+        'full_info', 
+        'display_valid_text'
+    ];
+
     /** RELATIONSHIPS */
     public function resultados()
     {
@@ -47,7 +52,7 @@ class FuenteScraper extends Model
     }
     public function scopePorNombre($query, string $name)
     {
-        return $query->where('name', 'LIKE', "%{$name}%");
+        return $query->where('source_name', 'LIKE', "%{$name}%");
     }
     public function scopeProcesadas($query)
     {
@@ -57,5 +62,22 @@ class FuenteScraper extends Model
     {
         return $query->whereNull('processed_at');
     }
-    
+
+    public function scopeEntreFechas($query, $inicio, $fin)
+    {
+        return $query->whereBetween('start_date', [$inicio, $fin]);
+    }
+
+    /** ACCESSORS */
+    public function getFullInfoAttribute(): string
+    {
+        $processedText = $this->processed_at ? $this->processed_at->format('d/m/Y H:i') : 'No procesada';
+        return "{$this->source_name} - {$this->source_url} - Procesada: {$processedText}";
+    }
+
+    public function getDisplayValidTextAttribute(): string
+    {
+        return $this->is_valid ? 'Válida' : 'Inválida';
+    }
+
 }

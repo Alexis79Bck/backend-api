@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Resultado extends Model
 {
@@ -22,7 +24,7 @@ class Resultado extends Model
         'scraping_source_id',
     ];
     protected $casts = [
-        'date' => 'date',
+        'date' => Carbon::class,
         'processed' => 'boolean',
     ];
 
@@ -53,6 +55,17 @@ class Resultado extends Model
     public function scopePorFecha($query, string $date)
     {
         return $query->where('date', 'LIKE', "%{$date}%");
+    }
+
+    /** ACCESSORS */
+    public function getFechaFormateadaAttribute(): string
+    {
+        return $this->date->format('d/m/Y');
+    }
+
+    public function getTextoInfoCompletaAttribute(): string
+    {
+        return "Sorteo #{$this->draw_id} - {$this->fecha_formateada} - {$this->animal->numero_y_nombre}";
     }
 
 }

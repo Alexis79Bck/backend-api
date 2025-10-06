@@ -25,6 +25,12 @@ class Sorteo extends Model
         'is_active' => 'boolean',
     ];
 
+    protected $appends = [
+        'description_with_status',
+        'display_description_text',
+        'display_status_text'
+    ];
+
     /** RELATIONSHIPS */
     public function loteria()
     {
@@ -58,18 +64,18 @@ class Sorteo extends Model
     }
     
     /** ACCESSORS */
-    public function getDescripcionConEstadoAttribute(): string
+    public function getDescriptionWithStatusAttribute(): string
     {
         $estado = $this->is_active ? 'Activo' : 'Inactivo';
         return "{$this->description} ({$estado})";  
     }
 
-    public function getMostrarDescripcionAttribute(): string
+    public function getDisplayDescriptionTextAttribute(): string
     {
         return ucfirst(strtolower($this->description));
     }
 
-    public function getMostrarTextoEstadoAttribute(): string
+    public function getDisplayStatusTextAttribute(): string
     {
         return $this->is_active ? 'Activo' : 'Inactivo';
     }

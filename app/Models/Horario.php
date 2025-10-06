@@ -18,6 +18,14 @@ class Horario extends Model
         'time',
         'lottery_id',
     ];
+    protected $casts = [
+        'time' => 'datetime:H:i a',
+    ];
+
+    protected $appends = [
+        'full_info', 
+        'display_time_text'
+    ];
 
     /** RELATIONSHIPS */
     public function loteria()
@@ -35,5 +43,15 @@ class Horario extends Model
         return $query->where('time', 'LIKE', "%{$time}%");  
     }
 
-    
+    /** ACCESSORS */
+    public function getFullInfoAttribute(): string
+    {
+        return "{$this->time} - {$this->loteria->name}";
+    }
+
+    public function getDisplayTimeTextAttribute(): string
+    {
+        return date('h:i A', strtotime($this->time));
+    }
+
 }

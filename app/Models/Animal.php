@@ -25,6 +25,11 @@ class Animal extends Model
         'number' => 'string',
     ];
 
+    protected $appends = [
+        'number_and_name', 
+        'full_info'
+    ];
+
     /** RELATIONSHIPS */
     public function resultados()
     {
@@ -53,11 +58,11 @@ class Animal extends Model
     }
 
     /** ACCESSORS */
-    public function getNumeroYNombreAttribute(): string
+    public function getNumberAndNameAttribute(): string
     {       
         return "{$this->number} - {$this->name}";
     }
-    public function getTextoInfoCompletaAttribute(): string
+    public function getFullInfoAttribute(): string
     {       
         return ucfirst(strtolower($this->name)) . ' - ' . $this->number . ' - ' . strtoupper($this->color);
     }
