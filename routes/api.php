@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+use App\Http\Controllers\Api\V1\LoteriaController;
+
+Route::prefix('v1')->group(function () {
+    Route::apiResource('lotteries', LoteriaController::class);
+    Route::post('lotteries/{id}/restore', [LoteriaController::class, 'restore']);
+});
+
