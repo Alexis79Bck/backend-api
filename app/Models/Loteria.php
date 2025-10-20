@@ -38,7 +38,7 @@ class Loteria extends Model
     }
     public function horarios(): HasMany
     {
-        return $this->hasMany(Horario::class);
+        return $this->hasMany(Horario::class, 'lottery_id');
     }
 
     /** SCOPES */

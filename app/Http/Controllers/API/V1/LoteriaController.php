@@ -20,7 +20,7 @@ class LoteriaController extends Controller
         // Permite filtrar por estado opcionalmente (?status=active/inactive)
         $status = $request->query('status');
 
-        $query = Loteria::query();
+        $query = Loteria::query()->with('horarios');
 
         if ($status === 'active') {
             $query->where('is_active', true);
@@ -67,11 +67,12 @@ class LoteriaController extends Controller
      * 
      * GET /api/v1/lotteries/{id}
      */
-    public function show(Loteria $lottery)
+    public function show(Loteria $loteria)
     {
+
         return response()->json([
             'success' => true,
-            'data' => $lottery,
+            'data' => $loteria,
         ], Response::HTTP_OK);
     }
 
